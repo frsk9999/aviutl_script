@@ -1,0 +1,94 @@
+--track0:枠[縦]%,0,500,150,0,1
+--track1:枠[横]%,0,500,150,0,1
+--track2:分割タイム,5,30,5,1
+--track3:ﾗｲﾝ幅,0,100,5,1
+--dialog:ライン色/col,local col2=0xffffff;
+obj.effect()
+----obj.alpha=0
+----obj.copybuffer("tmp","obj")
+
+local h_rate	=obj.track0/100
+local w_rate	=obj.track1/100
+local ls	=obj.track3	--linesize
+local w		=obj.w/2
+local h		=obj.h/2
+local dtime	=obj.track2
+local upuls	=(obj.time/(obj.totaltime/dtime)-0.5)*2
+local rpuls	=((obj.time-(obj.totaltime/dtime))/(obj.totaltime/dtime)-0.5)*2
+local dpuls	=((obj.time-(obj.totaltime/dtime)*2)/(obj.totaltime/dtime)-0.5)*2
+local lpuls	=((obj.time-(obj.totaltime/dtime)*3)/(obj.totaltime/dtime)-0.5)*2
+local spuls	=((obj.time-(obj.totaltime/dtime)*4)/(obj.totaltime/dtime)-0.5)*2
+if(spuls > 1) then
+    spuls=1
+    upuls=1
+    rpuls=1
+    dpuls=1
+    lpuls=1
+elseif(lpuls > 1) then
+    upuls=1
+    rpuls=1
+    dpuls=1
+    lpuls=1
+elseif(dpuls > 1) then
+    upuls=1
+    rpuls=1
+    dpuls=1
+elseif(rpuls > 1) then
+    upuls=1
+    rpuls=1
+elseif(upuls > 1) then
+    upuls=1
+end
+
+
+--■上のライン---------------------------
+obj.load("figure","四角形",col2,ls)
+----obj.effect()
+obj.drawpoly(
+(-w-ls*2),-h-ls,0,
+(w+ls*2)*upuls,-h-ls,0,
+(w+ls*2)*upuls,-h-ls*2,0,
+(-w-ls*2),-h-ls*2,0
+)
+
+--■右のライン---------------------------
+if(upuls == 1) then
+obj.load("figure","四角形",col2,ls)
+----obj.effect()
+obj.drawpoly(
+w+ls*2,-h-ls*2,0,
+w+ls*2,(h+ls*2)*rpuls,0,
+w+ls,(h+ls*2)*rpuls,0,
+w+ls,-h-ls*2,0
+)
+end
+
+--■下のライン---------------------------
+if(rpuls == 1) then
+obj.load("figure","四角形",col2,ls)
+----obj.effect()
+obj.drawpoly(
+(-w-ls*2)*dpuls,h+ls,0,
+(w+ls*2),h+ls,0,
+(w+ls*2),h+ls*2,0,
+(-w-ls*2)*dpuls,h+ls*2,0
+)
+end
+
+--■左のライン---------------------------
+if(dpuls == 1) then
+obj.load("figure","四角形",col2,ls)
+----obj.effect()
+obj.drawpoly(
+-w-ls,(-h-ls*2)*lpuls,0,
+-w-ls,(h+ls*2),0,
+-w-ls*2,(h+ls*2),0,
+-w-ls*2,(-h-ls*2)*lpuls,0
+)
+end
+
+----obj.alpha=spuls/2+0.5
+--■描画---------------------------
+----obj.load("tempbuffer")
+----obj.draw()
+
